@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take your new order</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: black;
+        }
+        header {
+            background-color: #0071dc;
+            padding: 15px;
+            color: white;
+            text-align: center;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav .logo {
+            font-size: 24px;
+        }
+        .nav .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav .buttons a {
+            text-decoration: none;
+            background-color: white;
+            color: #0071dc;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        .nav .buttons a:hover {
+            background-color: #004ba0;
+            color: white;
+        }
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-button {
+            background-color: #0071dc;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .quantity-button:hover {
+            background-color: #004ba0;
+        }
+
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+        .cart-button {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            text-decoration: none;
+            color: #333;
+        }
+        .cart-button i {
+            margin-right: 5px;
+        }
+        .cart-count {
+            font-weight: bold;
+            color: #e63946;
+            margin-left: 5px;
+        }
+        .container {
+            padding: 20px;
+        }
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .category-title {
+            font-size: 24px;
+            margin: 20px 0;
+            text-align: center;
+            cursor: pointer;
+            color: #0071dc;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            background-color: #0071dc;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #0071dc;
+            color: white;
+        }
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+        }
+        .add-to-cart {
+            background-color: #0071dc;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-to-cart:hover {
+            background-color: #004ba0;
+        }
+    </style>  
+</head>
+<body>
+    <header>
+        <div class="nav">
+            <div class="logo">Ready to fill your Cart? Let's Get Your Groceries!</div>
+            <div class="buttons">
+                <a href="test.html">Home</a>
+                <a href="carttest.html" class="cart-button">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                    <span id="cartCount" class="cart-count">0</span>
+                </a> 
+            </div>
+        </div>
+    </header>  
+
+    <div class="container">
+        <div class="category-title" onclick="toggleTable('breadTable')">Bread</div>
+        <table id="breadTable" class="hidden">
+            <tr>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Add to Cart</th>
+            </tr>
+            <tr>
+                <td><img src="pics/baguete.jpg" alt="Baguette"></td>
+                <td>Baguette</td>
+                <td>$2.50</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('baguette', -1)">-</button>
+                        <input type="text" id="baguetteQuantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('baguette', 1)">+</button>
+                    </div>
+                </td>
+                <td>
+                    <button class="add-to-cart" onclick="addToCart('Baguette', 2.50, document.getElementById('baguetteQuantity').value)">
+                        Add to Cart
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td><img src="pics/whole.jpg" alt="Whole Wheat Bread"></td>
+                <td>Whole Wheat Bread</td>
+                <td>$3.00</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('whole', -1)">-</button>
+                        <input type="text" id="wholeQuantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('whole', 1)">+</button>
+                    </div>
+                </td>
+                <td>
+                    <button class="add-to-cart" onclick="addToCart('Whole Wheat Bread', 3.00, document.getElementById('wholeQuantity').value)">
+                        Add to Cart
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td><img src="pics/sound.jpg" alt="Sourdough Bread"></td>
+                <td>Sourdough Bread</td>
+                <td>$4.00</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('sourdough', -1)">-</button>
+                        <input type="text" id="sourdoughQuantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('sourdough', 1)">+</button>
+                    </div>
+                </td>
+                <td>
+                    <button class="add-to-cart" onclick="addToCart('Sourdough Bread', 4.00, document.getElementById('sourdoughQuantity').value)">
+                        Add to Cart
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td><img src="pics/rye.jpg" alt="Rye Bread"></td>
+                <td>Rye Bread</td>
+                <td>$3.50</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('rye', -1)">-</button>
+                        <input type="text" id="ryeQuantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('rye', 1)">+</button>
+                    </div>
+                </td>
+                <td>
+                    <button class="add-to-cart" onclick="addToCart('Rye Bread', 3.50, document.getElementById('ryeQuantity').value)">
+                        Add to Cart
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td><img src="pics/ciabata.jpg" alt="Ciabatta"></td>
+                <td>Ciabatta</td>
+                <td>$2.25</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('ciabatta', -1)">-</button>
+                        <input type="text" id="ciabattaQuantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('ciabatta', 1)">+</button>
+                    </div>
+                </td>
+                <td>
+                    <button class="add-to-cart" onclick="addToCart('Ciabatta', 2.25, document.getElementById('ciabattaQuantity').value)">
+                        Add to Cart
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td><img src="pics/focacia.jpg" alt="Focaccia"></td>
+                <td>Focaccia</td>
+                <td>$3.00</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('focaccia', -1)">-</button>
+                        <input type="text" id="focacciaQuantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('focaccia', 1)">+</button>
+                    </div>
+                </td>
+                <td>
+                    <button class="add-to-cart" onclick="addToCart('Focaccia', 3.00, document.getElementById('focacciaQuantity').value)">
+                        Add to Cart
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td><img src="pics/multigrain.jpg" alt="Multigrain Bread"></td>
+                <td>Multigrain Bread</td>
+                <td>$3.75</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('multigrain', -1)">-</button>
+                        <input type="text" id="multigrainQuantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('multigrain', 1)">+</button>
+                    </div>
+                </td>
+                <td>
+                    <button class="add-to-cart" onclick="addToCart('Multigrain Bread', 3.75, document.getElementById('multigrainQuantity').value)">
+                        Add to Cart
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td><img src="pics/sandwich.jpg" alt="White Sandwich Bread"></td>
+                <td>White Sandwich Bread</td>
+                <td>$1.25</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('sandwich', -1)">-</button>
+                        <input type="text" id="sandwichQuantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('sandwich', 1)">+</button>
+                    </div>
+                </td>
+                <td>
+                    <button class="add-to-cart" onclick="addToCart('White Sandwich Bread', 1.25, document.getElementById('sandwichQuantity').value)">
+                        Add to Cart
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td><img src="pics/bagels.jpg" alt="Bagels"></td>
+                <td>Bagels</td>
+                <td>$3.00</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('bagels', -1)">-</button>
+                        <input type="text" id="bagelsQuantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('bagels', 1)">+</button>
+                    </div>
+                </td>
+                <td>
+                    <button class="add-to-cart" onclick="addToCart('Bagels', 3.00, document.getElementById('bagelsQuantity').value)">
+                        Add to Cart
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td><img src="pics/dinnerrols.jpg" alt="Dinner Rolls (pack of 6)"></td>
+                <td>Dinner Rolls (pack of 6)</td>
+                <td>$1.75</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('dinnerrolls', -1)">-</button>
+                        <input type="text" id="dinnerrollsQuantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('dinnerrolls', 1)">+</button>
+                    </div>
+                </td>
+                <td>
+                    <button class="add-to-cart" onclick="addToCart('Dinner Rolls (pack of 6)', 1.75, document.getElementById('dinnerrollsQuantity').value)">
+                        Add to Cart
+                    </button>
+                </td>
+            </tr>
+            
+                    </table>
+
+
+        <!-- <div class="category-title" onclick="toggleTable('drinkTable')">Soft Drinks</div>
+        <table id="drinkTable" class="hidden">
+            <tr>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Add to Cart</th>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/cocacola.jpg" alt="Coca Cola"></td>
+                <td>Coca Cola</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('CocaCola', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('CocaCola', 1)">+</button>
+                    </div>
+                </td>
+                
+                <td>$1.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/cocacola.jpg" alt="Coca Cola"></td>
+                <td>Coca Cola Can</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('CocaColacan', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('CocaColacan', 1)">+</button>
+                    </div>
+                </td>
+                <td>$0.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/cocacola.jpg" alt="Coca Cola"></td>
+                <td>Coca Cola</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('CocaColas', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('CocaColas', 1)">+</button>
+                    </div>
+                </td>
+                <td>$0.70</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/pepsi.jpg" alt="Drink Product 2"></td>
+                <td>Pepsi</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('pepsi', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('pepsi', 1)">+</button>
+                    </div>
+                </td>
+                <td>$1.10</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/pepsi.jpg" alt="Drink Product 2"></td>
+                <td>Pepsi Can</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('pepsican', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('pepsican', 1)">+</button>
+                    </div>
+                </td>
+                <td>$0.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/sprite.jpg" alt="Drink Product 3"></td>
+                <td>Sprite</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('sprite', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('sprite', 1)">+</button>
+                    </div>
+                </td>
+                <td>$1.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/fanta.jpg" alt="Drink Product 4"></td>
+                <td>Fanta</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('fanta', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('fanta', 1)">+</button>
+                    </div>
+                </td>
+                <td>$1.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/fanta.jpg" alt="Drink Product 4"></td>
+                <td>Fanta Can</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('fantacan', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('fantacan', 1)">+</button>
+                    </div>
+                </td>
+                <td>$0.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/drpepper.jpg" alt="Drink Product 5"></td>
+                <td>Dr Pepper</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('drpepper', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('drpepper', 1)">+</button>
+                    </div>
+                </td>
+                <td>$1.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/sinalco.jpg" alt="Drink Product 6"></td>
+                <td>Sinalco</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('sinalco', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('sinalco', 1)">+</button>
+                    </div>
+                </td>
+                <td>$1</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/mirinda.jpg" alt="Drink Product 7"></td>
+                <td>Mirinda</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('mirinda', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('mirinda', 1)">+</button>
+                    </div>
+                </td>
+                <td>$1</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/Schweppes.jpg" alt="Drink Product 8"></td>
+                <td>Schweppes</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('scweppes', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('scweppes', 1)">+</button>
+                    </div>
+                </td>
+                <td>$1.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="pics/drinks/Schweppes.jpg" alt="Drink Product 8"></td>
+                <td>Schweppes Can</td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="quantity-button" onclick="changeQuantity('scweppescan', -1)">-</button>
+                        <input type="text" id="Quantity" value="1" class="quantity-input" readonly>
+                        <button class="quantity-button" onclick="changeQuantity('scweppescan', 1)">+</button>
+                    </div>
+                </td>
+                <td>$0.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+        </table>
+        <div class="category-title" onclick="toggleTable('meatTable')">Meat</div>
+        <table id="meatTable" class="hidden"> -->
+
+      <!--  <div class="category-title" onclick="toggleTable('juicesTable')">Juices</div>
+        <table id="juicesTable" class="hidden">
+            <tr>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Add to Cart</th>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice 0"></td>
+                <td>VIVA Fruity juice</td>
+                <td>$2.00</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice1"></td>
+                <td>VIVA Orange juice</td>
+                <td>$2.00</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice2"></td>
+                <td>Takovo Orange juice</td>
+                <td>$1.00</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice3"></td>
+                <td>VIVA Apple juice</td>
+                <td>$2.00</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice4"></td>
+                <td>Takovo Apple juice</td>
+                <td>$1.00</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice5"></td>
+                <td>VIVA Pineapple juice</td>
+                <td>$2.00</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice6"></td>
+                <td>VIVA ACE Cocktail juice</td>
+                <td>$1.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice"></td>
+                <td>Takovo Cocktail juice</td>
+                <td>$1.00</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice"></td>
+                <td>Takovo Peach juice</td>
+                <td>$1.00</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice"></td>
+                <td>VIVA Peach juice</td>
+                <td>$1.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice"></td>
+                <td>VIVA Blueberry juice</td>
+                <td>$1.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice"></td>
+                <td>VIVA Cocktail Nectar juice</td>
+                <td>$1.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Orange juice"></td>
+                <td>Takovo Strawberry&Apple Juice</td>
+                <td>$1.00</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+        </table>
+        <div class="category-title" onclick="toggleTable('waterTable')">Water</div>
+        <table id="waterTable" class="hidden">
+            <tr>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Quantity[liter]</th>
+                <th>Price</th>
+                <th>Add to Cart</th>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Water0"></td>
+                <td>Aquafina</td>
+                <td>1.5l</td>
+                <td>$1.00</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Water1"></td>
+                <td>Aquafina</td>
+                <td>0.5l</td>
+                <td>$0.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Water2"></td>
+                <td>Aquafina</td>
+                <td>6l</td>
+                <td>$4.90</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Water3"></td>
+                <td>Dasani</td>
+                <td>1.5l</td>
+                <td>$1.00</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Water4"></td>
+                <td>Dasani</td>
+                <td>0.5l</td>
+                <td>$0.40</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Water5"></td>
+                <td>Izvorska Sport</td>
+                <td>0.75l</td>
+                <td>$0.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Water6"></td>
+                <td>Izvorska</td>
+                <td>0.5l</td>
+                <td>$0.30</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Water7"></td>
+                <td>Izvorska</td>
+                <td>1.5l</td>
+                <td>$0.70</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Water"></td>
+                <td>Izvorska</td>
+                <td>6l</td>
+                <td>$2.40</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Water"></td>
+                <td>Rosa</td>
+                <td>0.33l</td>
+                <td>$0.40</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="water"></td>
+                <td>Rosa</td>
+                <td>0.5l</td>
+                <td>$0.60</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="water"></td>
+                <td> Rosa</td>
+                <td>1.5l</td>
+                <td>$1</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+        </table>  
+        <div class="category-title" onclick="toggleTable('sparkwaterTable')">Sparkling Water</div>
+        <table id="sparkwaterTable" class="hidden">
+            <tr>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Quantity[liter]</th>
+                <th>Price</th>
+                <th>Add to Cart</th>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Sparkling Water"></td>
+                <td>Kozuvchanka</td>
+                <td>1.5l</td>
+                <td>$0.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Sparkling Water"></td>
+                <td>Kozuvchanka</td>
+                <td>0.5l</td>
+                <td>$0.30</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Sparkling Water"></td>
+                <td>Rosa</td>
+                <td>1.5l</td>
+                <td>$0.60</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+            <tr>
+                <td><img src="meat1.jpg" alt="Sparkling Water"></td>
+                <td>Gorska Lemon</td>
+                <td>1.5l</td>
+                <td>$1</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            <tr>
+                <td><img src="meat1.jpg" alt="Sparkling Water"></td>
+                <td>Gorska</td>
+                <td>1.5l</td>
+                <td>$0.50</td>
+                <td><button class="add-to-cart">Add to Cart</button></td>
+            </tr>
+        </table>
+
+        
+    </div>   -->
+
+    <footer>
+        &copy; 2024 Grocery Spot. All Rights Reserved.
+    </footer>
+    <script>
+        let cartCount = 0;
+
+        // Function to update the quantity of a product
+        function changeQuantity(product, change) {
+            const quantityInput = document.getElementById(product + 'Quantity');
+            let currentQuantity = parseInt(quantityInput.value);
+        
+            // Change the quantity
+            currentQuantity += change;
+        
+            // Ensure quantity does not go below 1
+            if (currentQuantity < 1) {
+                currentQuantity = 1;
+            }
+        
+            // Update the input value
+            quantityInput.value = currentQuantity;
+        }
+        
+        // Function to handle adding a product to the cart (both UI and backend)
+        function addToCart(productName, price, productId) {
+            // Get the quantity from the input field for the specific product
+            const quantity = parseInt(document.getElementById(productId + 'Quantity').value);
+        
+            // Create the cart item object
+            const cartItem = {
+                product_name: productName,
+                price: price,
+                quantity: quantity,
+                // If you have user_id, you can send it as well.
+                // user_id: userId  
+            };
+        
+            // Send the cart item to the server
+            fetch('/add_to_cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(cartItem)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message); // Log the success message
+                updateCartCount();  // Optionally, update cart count on the frontend
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        
+            // Update the cart count (this can also be handled by the server response if applicable)
+            cartCount += quantity;
+            document.getElementById('cartCount').textContent = cartCount;
+        }
+        
+        // Function to update the cart count (can be used after adding an item to the cart)
+        function updateCartCount() {
+            // In case you have a cart count element to show the number of items in the cart
+            document.getElementById('cartCount').textContent = cartCount;
+        }
+        
+        // Toggle visibility of different tables (breadTable, drinkTable, etc.)
+        function toggleTable(tableId) {
+            const tables = ['breadTable', 'drinkTable', 'juicesTable', 'waterTable', 'sparkwaterTable']; // Add other table IDs here
+            tables.forEach(id => {
+                const table = document.getElementById(id);
+                if (id === tableId) {
+                    table.classList.toggle('hidden'); // Show/Hide the selected table
+                } else {
+                    table.classList.add('hidden'); // Hide the others
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

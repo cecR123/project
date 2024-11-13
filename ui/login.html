@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .card {
+            width: 30rem;
+        }
+        #error-message {
+            display: none;
+            color: red;
+            margin-top: 10px;
+        }
+        .btn-primary {
+            background-color: #ffcc66;  
+            border-color: #ffcc66;      
+        }
+
+        .btn-primary:hover {
+            background-color: #ffb84d;  
+            border-color: #ffb84d;      
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Login</h5>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginEmail">Email address</label>
+                <input type="email" class="form-control" id="loginEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" class="form-control" id="loginPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <div id="error-message"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+    
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Get email and password values
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        // Simple validation
+        if (!email || !password) {
+            document.getElementById('error-message').innerText = 'Please enter both email and password.';
+            document.getElementById('error-message').style.display = 'block';
+            return;
+        }
+
+        // Send login request to Flask 
+        const loginData = { email, password };
+
+        fetch('http://127.0.0.1:5000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginData)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Invalid credentials');
+            }
+        })
+        .then(data => {
+            
+            const token = data.access_token; // Get the token from the response
+            localStorage.setItem('jwt_token', token);  // Store the token in localStorage
+
+            alert('Login successful!');
+            window.location.href = 'newer.html';
+        })
+        .catch(error => {
+         
+            document.getElementById('error-message').innerText = error.message;
+            document.getElementById('error-message').style.display = 'block';
+        });
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

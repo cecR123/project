@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .card {
+            width: 30rem;
+        }
+        .custom-blue {
+            background-color: #ffcc66; 
+            color: white; 
+        }
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">You Don't have an account - Sign up</h5>
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="registerEmail">Email address</label>
+                <input type="email" class="form-control" id="registerEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="registerPassword">Password</label>
+                <input type="password" class="form-control" id="registerPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword" required>
+            </div>
+            <button type="submit" class="btn custom-blue">Sign up</button>
+        </form>
+        <div id="error-message"></div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        // Clear previous error messages
+        document.getElementById('error-message').innerHTML = '';
+
+   
+        const data = {
+            email,
+            password,
+            confirmPassword
+        };
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (response.status === 201) {
+                alert(result.message); 
+                window.location.href = "newer.html"; 
+            } else {
+                
+                document.getElementById('error-message').innerText = result.message || 'Something went wrong. Please try again.';
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('error-message').innerText = 'An error occurred while processing your request.';
+        }
+    });
+</script>
+
+</body>
+</html>

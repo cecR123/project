@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery SPOT</title>
+  
+    <style>
+       
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background-color: #ffcc66;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .buttons a {
+            text-decoration: none;
+            background-color: #ffcc66;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons a:hover {
+            background-color:#ffb84d;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .items {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .items div {
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+
+        .items img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .items img:hover {
+            transform: scale(1.1);
+        }
+
+        .items a {
+            color: black;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .items a:hover {
+            color: #ffcc66;
+        }
+
+        footer {
+            background-color: #ffcc66;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav">
+            <div class="logo">SPOT the fresh finds and get them at your doorstep with a quick click</div>
+            <div class="buttons">
+                <a href="registration.html">Register</a>
+                <a href="login.html">Login</a>
+                <a href="newer.html">New Order</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section-title">On our menu</div>
+        
+        <div class="items">
+            <div>
+                <img src="background/2.jpg" alt="bread">
+                <a href="products/baked_goods.html" target="_blank">Pure Baked Goodness</a>
+            </div>
+            <div>
+                <img src="background/1.jpg" alt="Halloween Candy">
+                <a href="products/fresh_food.html" target="_blank">Fresh Food, No Fuss</a>
+            </div>
+            <div>
+                <img src="background/4.jpg" alt="meat">
+                <a href="products/premium_meat.html" target="_blank">Premium Quality Meat</a>
+            </div>
+            <div>
+                <img src="background/5.jpg" alt="snacks">
+                <a href="products/snacks.html" target="_blank">Satisfy Your Cravings</a>
+            </div>
+            <div>
+                <img src="background/7.jpg" alt="drinks">
+                <a href="products/drinks.html" target="_blank">Refreshment in Every Sip</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Grocery Spot. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

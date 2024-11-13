@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take your new order</title>
+    <style>
+       
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background-color: #ffcc66;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .products, .cart {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 45%;
+        }
+
+        .product {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .product img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .product h3 {
+            flex: 1;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .product p {
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+        }
+
+        .quantity {
+            width: 50px;
+            padding: 5px;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .cart {
+            max-width: 400px;
+        }
+
+        #cartItems {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            margin-bottom: 10px;
+        }
+
+        #totalPrice {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #ffcc66;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #ffb84d;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Ready to fill your Cart? Let's Get Your Groceries!</h1>
+    </header>
+
+    <main>
+        <section class="products">
+            <h2>Products</h2>
+            <select id="categorySelect">
+                <option value="all">All Products</option>
+                <option value="Bread">Bread</option>
+                <option value="Soft Drinks">Soft Drinks</option>
+                <option value="Juices">Juices</option>
+                <option value="Water">Water</option>
+                <option value="Sparkling Water">Sparkling Water</option>
+                <option value="Meat">Meat</option>
+                <option value="Fruit">Fruit</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Snacks">Snacks</option>
+            </select>
+            <div id="product-list"></div>
+        </section>
+
+        <section class="cart">
+            <h2>Your Cart</h2>
+            <div id="cartItems"></div>
+            <div id="totalPrice"><strong>Total: $0.00</strong></div>
+            <a href="delivery.html" id="buyBtnLink">
+                <button id="buyBtn">Buy</button>
+            </a>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItems = [];
+            const totalPriceElement = document.getElementById('totalPrice');
+            const cartItemsElement = document.getElementById('cartItems');
+            const productListElement = document.getElementById('product-list');
+            const categorySelectElement = document.getElementById('categorySelect');
+
+            //  menu data with categories
+            const menu = [
+                { id: 1, name: 'Bagguette', price: 3.50, image_url: 'pics/baguette.jpg', category: 'Bread' },
+                { id: 2, name: 'Whole Wheat Bread', price: 4.00, image_url: 'pics/whole.jpg', category: 'Bread' },
+                { id: 3, name: 'Sourdough Bread', price: 5.00, image_url: 'pics/sound.jpg', category: 'Bread' },
+                { id: 4, name: 'Rye Bread', price: 4.50, image_url: 'pics/rye.jpg', category: 'Bread' },
+                { id: 5, name: 'Ciabatta', price: 2.25, image_url: 'pics/ciabatta.jpg', category: 'Bread' },
+                { id: 6, name: 'Focaccia', price: 3.00, image_url: 'pics/focacia.jpg', category: 'Bread' },
+                { id: 7, name: 'Multigrain Bread', price: 3.75, image_url: 'pics/multigrain.jpg', category: 'Bread' },
+                { id: 8, name: 'White Sandwich Bread', price: 1.25, image_url: 'pics/sandwich.jpg', category: 'Bread' },
+                { id: 9, name: 'Bagels', price: 3.00, image_url: 'pics/bagels.jpg', category: 'Bread' },
+                { id: 10, name: 'Dinner Rolls (pack of 6)', price: 1.75, image_url: 'pics/dinnerrols.jpg', category: 'Bread' },
+                { id: 11, name: 'Coca Cola 2L', price: 1.50, image_url: 'pics/drinks/cocacola.jpg', category: 'Soft Drinks' },
+                { id: 12, name: 'Coca Cola 0.33L Can', price: 0.50, image_url: 'pics/drinks/cocacola.jpg', category: 'Soft Drinks' },
+                { id: 13, name: 'Coca Cola 0.5L', price: 0.70, image_url: 'pics/drinks/cocacola.jpg', category: 'Soft Drinks' },
+                { id: 14, name: 'Pepsi 2L', price: 1.60, image_url: 'pics/drinks/pepsi.jpg', category: 'Soft Drinks' },
+                { id: 15, name: 'Pepsi 0.33L Can', price: 0.55, image_url: 'pics/drinks/pepsi.jpg', category: 'Soft Drinks' },
+                { id: 16, name: 'Pepsi 0.7L', price: 0.90, image_url: 'pics/drinks/pepsi.jpg', category: 'Soft Drinks' },
+                { id: 17, name: 'Sprite 2L', price: 1.50, image_url: 'pics/drinks/sprite.jpg', category: 'Soft Drinks' },
+                { id: 18, name: 'Sinalco 1.5L', price: 1.00, image_url: 'pics/drinks/sinalco.jpg', category: 'Soft Drinks' },
+                { id: 19, name: 'Mirinda 1.5L', price: 1.00, image_url: 'pics/drinks/mirinda.jpg', category: 'Soft Drinks' },
+                { id: 20, name: 'Fanta 2L', price: 1.40, image_url: 'pics/drinks/fanta.jpg', category: 'Soft Drinks' },
+                { id: 21, name: 'Fanta 0.33L', price: 0.55, image_url: 'pics/fanta_033.jpg', category: 'Soft Drinks' },
+                { id: 22, name: 'Fanta 0.7L', price: 0.80, image_url: 'pics/drinks/fanta.jpg', category: 'Soft Drinks' },
+                { id: 23, name: 'Schweppes 2L', price: 1.50, image_url: 'pics/drinks/Schweppes.jpg', category: 'Soft Drinks' },
+                { id: 24, name: 'Schweppes 0.33L', price: 0.50, image_url: 'pics/drinks/Schweppes.jpg', category: 'Soft Drinks' },
+                { id: 25, name: 'Schweppes 0.5L', price: 0.70, image_url: 'pics/drinks/Schweppes.jpg', category: 'Soft Drinks' }
+                ];
+
+            // Render products based on the selected category
+            function renderProducts(category) {
+                // Clear existing products
+                productListElement.innerHTML = '';
+
+                // Filter products based on selected category
+                let filteredMenu = category === 'all' ? menu : menu.filter(item => item.category === category);
+
+                filteredMenu.forEach(product => {
+                    const productElement = document.createElement('div');
+                    productElement.classList.add('product');
+                    productElement.setAttribute('data-id', product.id);
+
+                    productElement.innerHTML = `
+                        <img src="${product.image_url}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>$${product.price}</p>
+                        <input type="number" class="quantity" value="0" min="0">
+                    `;
+
+                    productListElement.appendChild(productElement);
+                });
+
+                addQuantityListeners(); 
+            }
+
+            // Handle quantity changes and update the cart
+            function addQuantityListeners() {
+                document.querySelectorAll('.product').forEach(productElement => {
+                    const quantityInput = productElement.querySelector('.quantity');
+                    quantityInput.addEventListener('change', (e) => {
+                        const quantity = parseInt(e.target.value);
+                        const productId = parseInt(productElement.getAttribute('data-id'));
+                        const product = menu.find(p => p.id === productId);
+
+                        if (quantity > 0) {
+                            const cartItem = cartItems.find(item => item.id === productId);
+                            if (cartItem) {
+                                cartItem.quantity = quantity;
+                            } else {
+                                cartItems.push({ id: productId, name: product.name, price: product.price, quantity: quantity });
+                            }
+                        } else {
+                            const index = cartItems.findIndex(item => item.id === productId);
+                            if (index !== -1) {
+                                cartItems.splice(index, 1);
+                            }
+                        }
+
+                        updateCart();
+                    });
+                });
+            }
+
+            // Update the cart display
+            function updateCart() {
+                cartItemsElement.innerHTML = '';
+                let total = 0;
+
+                cartItems.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('cart-item');
+                    itemElement.textContent = `${item.name} x ${item.quantity} = $${(item.quantity * item.price).toFixed(2)}`;
+                    cartItemsElement.appendChild(itemElement);
+                    total += item.quantity * item.price;
+                });
+
+                totalPriceElement.innerHTML = `<strong>Total: $${total.toFixed(2)}</strong>`;
+            }
+
+            // Handle category selection
+            categorySelectElement.addEventListener('change', (e) => {
+                const selectedCategory = e.target.value;
+                renderProducts(selectedCategory);
+            });
+
+            // Initial render of all products
+            renderProducts('all');
+        });
+    </script>
+
+</body>
+</html>
